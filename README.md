@@ -12,7 +12,7 @@ p.s. 고3이 하라는 공부는 안하고 프로그램 제작하고있슴...
 수집된 데이터를 텍스트 파일로 저장(순위, 닉네임 또는 IP, 댓글 수 등)
 
 # 사용 방법
-![alt 1](https://github.com/OFox213/DCRanking/blob/main/exImg/1.png)
+![alt 1](https://github.com/OFox213/DCRanking/blob/master/exImg/1.png)
 
 1. 갤러리 ID를 입력합니다.
 (https://gall.dcinside.com/board/lists/?id=이 부분이 아이디)
@@ -24,12 +24,12 @@ p.s. 고3이 하라는 공부는 안하고 프로그램 제작하고있슴...
 - 시작과 끝 날짜가 다르고 시작 페이지 숫자만 입력하는 경우 시작 페이지부터 지정한 날짜 범위 내의 댓글 수를 집계합니다.
 - 시작과 끝 날짜가 다르고 시작과 끝 페이지 숫자를 입력하는 경우 시작 페이지부터 끝 페이지 범위와 설정 날짜 범위 내의 댓글 수를 집계합니다.
 
-![alt 2](https://github.com/OFox213/DCRanking/blob/main/exImg/2.png)
+![alt 2](https://github.com/OFox213/DCRanking/blob/master/exImg/2.png)
 
 4. 데이터 불러오기를 눌러 1~3과정을 마친 후의 데이터 파일을 선택해주세요.
 5. 데이터가 불러와진 후 왼쪽 리스트에서 확인 후 '파일 저장' 을 눌러주세요.
 
-![alt 3](https://github.com/OFox213/DCRanking/blob/main/exImg/3.png)
+![alt 3](https://github.com/OFox213/DCRanking/blob/master/exImg/3.png)
 
 6. 각 값을 설정 후 저장 버튼을 눌러 저장합니다. 이때 프로그램과 같은 폴더 내에 results 에 텍스트 파일로 저장됩니다.
 
