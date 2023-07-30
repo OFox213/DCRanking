@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using DCCommentRanking.Properties;
 using Newtonsoft.Json;
@@ -13,6 +14,13 @@ namespace DCCommentRanking
 {
     public partial class Form1 : Form
     {
+        private DCHelper dc = new DCHelper();
+        private DateTime startDate;
+        private DateTime endDate;
+        private bool isGallCheckComplete;
+        private string rankFileName;
+        public List<DCHelper.UserInfoRank> uir = new List<DCHelper.UserInfoRank>();
+
         public Form1()
         {
             this.InitializeComponent();
@@ -231,6 +239,8 @@ namespace DCCommentRanking
                             userInfoRank.replyCount.ToString() + "개"
                         });
                         this.userRankList.Items.Add(value2);
+
+
                     }
                     this.userRankList.Refresh();
                 }
@@ -240,6 +250,7 @@ namespace DCCommentRanking
                 }
             }
         }
+
 
         private void saveFileButton_Click(object sender, EventArgs e)
         {
@@ -282,6 +293,19 @@ namespace DCCommentRanking
                 if (listViewItem.SubItems[1].Text.Contains(this.searchTextBox.Text))
                 {
                     listViewItem.Checked = true;
+                }
+            }
+        }
+
+
+        private void mergeSameUser() //유동 ㅇㅇ 닉네임 제외
+        {
+            foreach (object obj in this.userRankList.Items)
+            {
+                ListViewItem listViewItem = (ListViewItem)obj;
+                if (listViewItem.SubItems[1].Text.Contains(this.searchTextBox.Text))
+                {
+
                 }
             }
         }
@@ -335,21 +359,21 @@ namespace DCCommentRanking
                     {
                         break;
                     }
-                    double num4 = (double)(10000 * this.uir[i].replyCount / num) / 100.0;
-                    string text2 = this.uir[i].name;
+                    double percentage = (double)(10000 * this.uir[i].replyCount / num) / 100.0;
+                    string name = this.uir[i].name;
                     if (!this.uir[i].isFluid)
                     {
-                        text2 = text2 + " (" + this.uir[i].uid + ")";
+                        name = name + " (" + this.uir[i].uid + ")";
                     }
                     string value = string.Concat(new string[]
                     {
                         num3.ToString(),
                         "위\t",
-                        text2,
+                        name,
                         "\t",
                         this.uir[i].replyCount.ToString(),
                         "개\t",
-                        num4.ToString(),
+                        percentage.ToString(),
                         "%"
                     });
                     streamWriter.WriteLine(value);
@@ -392,16 +416,108 @@ namespace DCCommentRanking
             }
         }
 
-        private DCHelper dc = new DCHelper();
+        private void disableActionButton(bool disabled)
+        {
+            if(disabled)
+            {
+                openTempFileButton.Enabled = false;
+                searchButton.Enabled = false;
+                listSelectAllButton.Enabled = false;
+                listDeselectAllButton.Enabled = false;
+                autoMergeButton.Enabled = false;
 
-        private DateTime startDate;
+                saveFileButton.Visible = false;
+                saveProgress.Visible = true;
+            } else
+            {
+                openTempFileButton.Enabled = true;
+                searchButton.Enabled = true;
+                listSelectAllButton.Enabled = true;
+                listDeselectAllButton.Enabled = true;
+                autoMergeButton.Enabled = true;
 
-        private DateTime endDate;
+                saveFileButton.Visible = true;
+                saveProgress.Visible = false;
+            }
+        }
 
-        private bool isGallCheckComplete;
+        private void autoMergeButton_Click(object sender, EventArgs e)
+        {
+            disableActionButton(true);
+            int num = 0;
+            this.saveProgress.Maximum = uir.Count;
+            List<DCHelper.UserInfoRank> temp_uir = new List<DCHelper.UserInfoRank>();
 
-        private string rankFileName;
+            for (int i =0; i<this.uir.Count; i++)
+            {
+                bool isUserFluid = uir[i].isFluid;
+                if (!isUserFluid)
+                {
+                    if (!uir[i].pass)
+                    {
+                        int tempUserReplyCount = 0;
+                        DCHelper.UserInfoRank tempUserInfo = uir[i];
+                        for (int j = 0; j < this.uir.Count; j++)
+                        {
+                            if (uir[j].uid.Equals(tempUserInfo.uid))
+                            {
+                                tempUserReplyCount += uir[j].replyCount;
+                                if (uir[j].name != tempUserInfo.name)
+                                {
+                                    tempUserInfo.name += "+" + uir[j].name;
+                                    Console.WriteLine(tempUserInfo.name + " <- " + uir[j].name);
+                                }
+                              
+                                uir[j].pass = true;
+                            }
+                        }
+                        tempUserInfo.replyCount = tempUserReplyCount;
+                        temp_uir.Add(tempUserInfo);
+                    }
+                }
+                else
+                {
+                    temp_uir.Add(uir[i]);
+                }
+                num++;
+                saveProgress.Value = num;
+            }
+            this.uir.Clear();
+            this.uir = temp_uir; 
+            refreshListView();
+            MessageBox.Show("유저 병합을 완료하였습니다.");
+            saveProgress.Value = 0;
+            disableActionButton(false);
+        }
+        private void removeValueInUIR(string uid)
+        {
+            for (int i = 0; i < this.uir.Count; i++)
+            {
+                if (this.uir[i].uid.Equals(uid)) this.uir.RemoveAt(i);
+            }
+        }
+        private void refreshListView()
+        {
+            IOrderedEnumerable<DCHelper.UserInfoRank> source = from usr in this.uir
+                                                               orderby usr.replyCount descending
+                                                               select usr;
+            this.uir = source.ToList<DCHelper.UserInfoRank>();
+            this.userRankList.Items.Clear();
+            int num = 0;
+            foreach (DCHelper.UserInfoRank userInfoRank in this.uir)
+            {
+                num++;
+                ListViewItem value2 = new ListViewItem(new string[]
+                {
+                            num.ToString() + "위",
+                            userInfoRank.name,
+                            userInfoRank.replyCount.ToString() + "개"
+                });
+                this.userRankList.Items.Add(value2);
 
-        public List<DCHelper.UserInfoRank> uir = new List<DCHelper.UserInfoRank>();
+
+            }
+            this.userRankList.Refresh();
+        }
     }
 }

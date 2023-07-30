@@ -28,6 +28,8 @@ namespace DCCommentRanking
         public delegate void StatusChangedEventHandler(object sender, DCStatusEventArgs args);
         public event DCHelper.LogMessageEventHandler eventHandler;
 
+        private bool loggerEnabled = false;
+
         protected virtual void OnNewLog(string logMessage)
         {
             if (this.eventHandler != null)
@@ -132,26 +134,35 @@ namespace DCCommentRanking
                             {
                                 num2 = 0;
                             }
-                            Console.WriteLine(string.Concat(new string[]
+                            if (loggerEnabled)
                             {
+                                Console.WriteLine(string.Concat(new string[]
+                           {
                                 onlyInt.ToString(),
                                 " | 댓글수 : ",
                                 num2.ToString(),
                                 " < ",
                                 t.ToString()
-                            }));
-                            this.OnNewLog(string.Concat(new string[]
-                            {
-                                onlyInt.ToString(),
-                                " | 댓글수 : ",
-                                num2.ToString(),
-                                " < ",
-                                t.ToString()
-                            }));
+                           }));
+
+                            }
+
                             if (num2 > 0)
                             {
                                 if (onlyInt > 0)
                                 {
+                                    if (loggerEnabled)
+                                    {
+                                        this.OnNewLog(string.Concat(new string[]
+{
+                                onlyInt.ToString(),
+                                " | 댓글수 : ",
+                                num2.ToString(),
+                                " < ",
+                                t.ToString()
+}));
+                                    }
+
                                     this.getComment(this.gallID, onlyInt.ToString(), "1");
                                 }
                                 else
@@ -188,7 +199,6 @@ namespace DCCommentRanking
                 {
                     continue;
                 }
-                break;
             }
         }
 
@@ -603,13 +613,14 @@ namespace DCCommentRanking
                 this.name = name;
             }
 
-            public UserInfoRank(string name, string uid, string ip, bool isFluid, int replyCount)
+            public UserInfoRank(string name, string uid, string ip, bool isFluid, int replyCount, bool pass = false)
             {
                 this.name = name;
                 this.uid = uid;
                 this.ip = ip;
                 this.isFluid = isFluid;
                 this.replyCount = replyCount;
+                this.pass = pass;
             }
 
             public string name;
@@ -621,6 +632,8 @@ namespace DCCommentRanking
             public int replyCount;
 
             public bool isFluid;
+
+            public bool pass;
         }
 
         [Serializable]
