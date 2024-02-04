@@ -33,7 +33,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.gallIDTextBox = new System.Windows.Forms.TextBox();
-            this.isMinorCheckbox = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.saveProgress = new System.Windows.Forms.ProgressBar();
             this.label8 = new System.Windows.Forms.Label();
@@ -63,11 +62,16 @@
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.loadingTextUpdate = new System.Windows.Forms.Timer(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.isMiniRadio = new System.Windows.Forms.RadioButton();
+            this.isMinorRadio = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.isMajorRadio = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -87,10 +91,10 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.pageStatusText);
             this.tabPage1.Controls.Add(this.pageStatusProgress);
             this.tabPage1.Controls.Add(this.logConsole);
-            this.tabPage1.Controls.Add(this.gallIDCheckStatus);
             this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.endDatePicker);
             this.tabPage1.Controls.Add(this.label6);
@@ -103,7 +107,6 @@
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.gallIDTextBox);
-            this.tabPage1.Controls.Add(this.isMinorCheckbox);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -148,18 +151,18 @@
             // 
             this.gallIDCheckStatus.AutoSize = true;
             this.gallIDCheckStatus.ForeColor = System.Drawing.Color.Green;
-            this.gallIDCheckStatus.Location = new System.Drawing.Point(165, 66);
+            this.gallIDCheckStatus.Location = new System.Drawing.Point(15, 399);
             this.gallIDCheckStatus.Name = "gallIDCheckStatus";
-            this.gallIDCheckStatus.Size = new System.Drawing.Size(172, 12);
+            this.gallIDCheckStatus.Size = new System.Drawing.Size(117, 12);
             this.gallIDCheckStatus.TabIndex = 15;
-            this.gallIDCheckStatus.Text = "갤러리 ID 검증을 완료했습니다";
+            this.gallIDCheckStatus.Text = "검증을 완료했습니다";
             this.gallIDCheckStatus.Visible = false;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(6, 61);
+            this.button1.Location = new System.Drawing.Point(3, 61);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(149, 23);
+            this.button1.Size = new System.Drawing.Size(180, 23);
             this.button1.TabIndex = 12;
             this.button1.Text = "갤러리 ID 검증";
             this.button1.UseVisualStyleBackColor = true;
@@ -256,19 +259,9 @@
             // 
             this.gallIDTextBox.Location = new System.Drawing.Point(6, 33);
             this.gallIDTextBox.Name = "gallIDTextBox";
-            this.gallIDTextBox.Size = new System.Drawing.Size(149, 21);
+            this.gallIDTextBox.Size = new System.Drawing.Size(177, 21);
             this.gallIDTextBox.TabIndex = 1;
             this.gallIDTextBox.TextChanged += new System.EventHandler(this.GalleryIDTextbox_Changed);
-            // 
-            // isMinorCheckbox
-            // 
-            this.isMinorCheckbox.AutoSize = true;
-            this.isMinorCheckbox.Location = new System.Drawing.Point(167, 35);
-            this.isMinorCheckbox.Name = "isMinorCheckbox";
-            this.isMinorCheckbox.Size = new System.Drawing.Size(136, 16);
-            this.isMinorCheckbox.TabIndex = 0;
-            this.isMinorCheckbox.Text = "마이너 갤러리입니다";
-            this.isMinorCheckbox.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -559,6 +552,52 @@
             // 
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             // 
+            // isMiniRadio
+            // 
+            this.isMiniRadio.AutoSize = true;
+            this.isMiniRadio.Location = new System.Drawing.Point(6, 65);
+            this.isMiniRadio.Name = "isMiniRadio";
+            this.isMiniRadio.Size = new System.Drawing.Size(123, 16);
+            this.isMiniRadio.TabIndex = 23;
+            this.isMiniRadio.TabStop = true;
+            this.isMiniRadio.Text = "미니 갤러리입니다";
+            this.isMiniRadio.UseVisualStyleBackColor = true;
+            // 
+            // isMinorRadio
+            // 
+            this.isMinorRadio.AutoSize = true;
+            this.isMinorRadio.Location = new System.Drawing.Point(6, 43);
+            this.isMinorRadio.Name = "isMinorRadio";
+            this.isMinorRadio.Size = new System.Drawing.Size(135, 16);
+            this.isMinorRadio.TabIndex = 24;
+            this.isMinorRadio.TabStop = true;
+            this.isMinorRadio.Text = "마이너 갤러리입니다";
+            this.isMinorRadio.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.isMajorRadio);
+            this.groupBox1.Controls.Add(this.isMinorRadio);
+            this.groupBox1.Controls.Add(this.isMiniRadio);
+            this.groupBox1.Location = new System.Drawing.Point(189, 18);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(192, 90);
+            this.groupBox1.TabIndex = 25;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "갤러리 타입";
+            // 
+            // isMajorRadio
+            // 
+            this.isMajorRadio.AutoSize = true;
+            this.isMajorRadio.Checked = true;
+            this.isMajorRadio.Location = new System.Drawing.Point(6, 21);
+            this.isMajorRadio.Name = "isMajorRadio";
+            this.isMajorRadio.Size = new System.Drawing.Size(135, 16);
+            this.isMajorRadio.TabIndex = 25;
+            this.isMajorRadio.TabStop = true;
+            this.isMajorRadio.Text = "메이저 갤러리입니다";
+            this.isMajorRadio.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -568,6 +607,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.gallIDCheckStatus);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "Form1";
@@ -581,6 +621,8 @@
             this.tabPage3.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -603,8 +645,6 @@
 				private global::System.Windows.Forms.Label label2;
 
 				private global::System.Windows.Forms.TextBox gallIDTextBox;
-
-				private global::System.Windows.Forms.CheckBox isMinorCheckbox;
 
 				private global::System.Windows.Forms.TabPage tabPage2;
 
@@ -683,5 +723,9 @@
 				private global::System.Windows.Forms.Button openCommentViewer;
 
 				private global::System.Windows.Forms.Panel panel1;
-	}
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton isMajorRadio;
+        private System.Windows.Forms.RadioButton isMinorRadio;
+        private System.Windows.Forms.RadioButton isMiniRadio;
+    }
 }

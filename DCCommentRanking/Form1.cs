@@ -106,7 +106,15 @@ namespace DCCommentRanking
                 return;
             }
             this.button1.Enabled = false;
-            if (this.dc.CheckGallery(this.gallIDTextBox.Text, this.isMinorCheckbox.Checked))
+
+            int gallType = 0; //타입은 int 형이어야 하며 각각 0=Major, 1=Minor, 2=Mini 갤러리 입니다.
+            if (this.isMajorRadio.Checked) gallType = 0;
+            else if (this.isMinorRadio.Checked) gallType = 1;
+            else if (this.isMiniRadio.Checked) gallType = 2;
+            else gallType = 0;
+
+
+            if (this.dc.CheckGallery(this.gallIDTextBox.Text, gallType))
             {
                 this.button1.Enabled = true;
                 this.gallIDCheckStatus.Visible = true;

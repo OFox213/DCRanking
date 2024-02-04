@@ -475,9 +475,15 @@ namespace DCCommentRanking
             }
         }
 
-        public bool CheckGallery(string gallID, bool isMinorGallery)
+        public bool CheckGallery(string gallID, int gallType)
         {
-            string address = isMinorGallery ? ("https://gall.dcinside.com/mgallery/board/lists?id=" + gallID) : ("https://gall.dcinside.com/board/lists/?id=" + gallID);
+            string defaultAddress = "https://gall.dcinside.com/board/lists/?id=" + gallID;
+            string address = defaultAddress;
+            if (gallType == 0) address = defaultAddress;
+            else if (gallType == 1) address = "https://gall.dcinside.com/mgallery/board/lists?id=" + gallID;
+            else if (gallType == 2) address = "https://gall.dcinside.com/mini/board/lists?id=" + gallID;
+
+
             WebClient webClient = new WebClient();
             webClient.Encoding = Encoding.UTF8;
             string html;
