@@ -14,7 +14,7 @@ namespace DCCommentRanking
     public class DCHelper
     {
         public string gallID, gallName, gallUrl;
-        private int startPage,endPage;
+        private int startPage,endPage, gallType;
         public DateTime startDate,endDate;
 
         public List<DCHelper.UserInfo> userInfos = new List<DCHelper.UserInfo>();
@@ -327,11 +327,13 @@ namespace DCCommentRanking
             }));
             try
             {
+                //add here
                 byte[] bytes = new WebClient().UploadValues("https://m.dcinside.com/ajax/response-comment", "POST", new NameValueCollection
                 {
                     {
                         "id",
-                        gallID
+                        gallType == 2 ? "mi$"+ gallID : gallID 
+                        //미니갤은 특이하게도 갤 아이디 앞에 mi$ 접두사를 붙임, gallType 0=메이저, 1=마이너, 2=미니
                     },
                     {
                         "no",
@@ -482,7 +484,7 @@ namespace DCCommentRanking
             if (gallType == 0) address = defaultAddress;
             else if (gallType == 1) address = "https://gall.dcinside.com/mgallery/board/lists?id=" + gallID;
             else if (gallType == 2) address = "https://gall.dcinside.com/mini/board/lists?id=" + gallID;
-
+            this.gallType = gallType;
 
             WebClient webClient = new WebClient();
             webClient.Encoding = Encoding.UTF8;
